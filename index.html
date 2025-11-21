@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evyssa SkyTrack | Premium Flight Status</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="logo.jpeg" type="image/jpeg">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <img src="logo.jpeg" alt="Evyssa SkyTrack Logo" class="logo-img">
+                <h1>Evyssa SkyTrack</h1>
+            </div>
+            <button id="settings-btn" class="icon-btn" title="Settings">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+        </header>
+
+        <section class="search-section">
+            <div class="search-box">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input type="text" id="flight-input" placeholder="Enter Flight Number (e.g., AA123)" autocomplete="off">
+                <button id="search-btn">Search</button>
+            </div>
+            <p class="search-hint">Try "AA123" or "SQ321" in Mock Mode</p>
+        </section>
+
+        <section id="loading-state" class="hidden">
+            <div class="loader"></div>
+            <p>Scanning skies...</p>
+        </section>
+
+        <section id="error-state" class="hidden">
+            <div class="error-content">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <p id="error-message">Flight not found.</p>
+            </div>
+        </section>
+
+        <section id="result-state" class="hidden">
+            <div class="flight-card">
+                <div class="flight-header">
+                    <div class="airline-info">
+                        <span id="airline-name" class="airline-name">American Airlines</span>
+                        <span id="flight-num" class="flight-number">AA123</span>
+                    </div>
+                    <div id="flight-status" class="status-badge status-active">In Air</div>
+                </div>
+
+                <div class="route-display">
+                    <div class="location from">
+                        <div id="dep-code" class="airport-code">JFK</div>
+                        <div id="dep-city" class="city-name">New York</div>
+                        <div id="dep-time" class="time">10:30 AM</div>
+                        <div id="dep-date" class="date">Nov 21</div>
+                    </div>
+
+                    <div class="flight-path">
+                        <div class="plane-icon"><i class="fa-solid fa-plane"></i></div>
+                        <div class="path-line"></div>
+                        <div class="duration-badge"><i class="fa-regular fa-clock"></i> <span id="flight-duration">6h
+                                30m</span></div>
+                    </div>
+
+                    <div class="location to">
+                        <div id="arr-code" class="airport-code">LHR</div>
+                        <div id="arr-city" class="city-name">London</div>
+                        <div id="arr-time" class="time">10:00 PM</div>
+                        <div id="arr-date" class="date">Nov 21</div>
+                    </div>
+                </div>
+
+                <div class="extra-details">
+                    <div class="detail-item">
+                        <span class="label">Terminal</span>
+                        <span id="dep-terminal" class="value">8</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Gate</span>
+                        <span id="dep-gate" class="value">B12</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Aircraft</span>
+                        <span id="aircraft-type" class="value">Boeing 777</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Container -->
+            <div id="map-container" class="map-container"></div>
+        </section>
+    </main>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button id="close-settings" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <label for="api-key-input">AviationStack API Key</label>
+                    <input type="password" id="api-key-input" placeholder="Enter your API Key">
+                    <p class="setting-note">Leave empty to use <strong>Mock Data</strong>.</p>
+                </div>
+                <button id="save-settings" class="primary-btn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="airports.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
