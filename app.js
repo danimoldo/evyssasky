@@ -74,7 +74,9 @@ async function fetchRealFlightData(flightNumber) {
     // Note: Free tier doesn't support HTTPS on some endpoints, but we'll try HTTPS first.
     // If it fails due to mixed content (if hosted on HTTPS), user needs upgrade.
     // For local file, HTTP is fine.
-    const url = `http://api.aviationstack.com/v1/flights?access_key=${apiKey}&flight_iata=${flightNumber}`;
+    // Use allorigins proxy to bypass Mixed Content (HTTPS -> HTTP) block
+    const targetUrl = `http://api.aviationstack.com/v1/flights?access_key=${apiKey}&flight_iata=${flightNumber}`;
+    const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
 
     const response = await fetch(url);
     const result = await response.json();
